@@ -1,0 +1,222 @@
+:root {
+    --bg-color: rgba(255, 255, 255, 0.75);
+    --header-bg: rgba(240, 240, 240, 0.4);
+    --address-bg: rgba(255, 255, 255, 0.8);
+    --text-color: #1a1a1a;
+    --text-dim: #666;
+    --accent-color: #007AFF;
+    --border-color: rgba(0, 0, 0, 0.12);
+    --tab-inactive: rgba(0, 0, 0, 0.04);
+    --tab-active: rgba(255, 255, 255, 0.9);
+    --webview-bg: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: rgba(28, 28, 30, 0.85);
+        --header-bg: rgba(44, 44, 46, 0.5);
+        --address-bg: rgba(58, 58, 60, 0.7);
+        --text-color: #f2f2f7;
+        --text-dim: #8e8e93;
+        --accent-color: #0A84FF;
+        --border-color: rgba(255, 255, 255, 0.15);
+        --tab-inactive: rgba(255, 255, 255, 0.05);
+        --tab-active: rgba(68, 68, 70, 0.95);
+        --webview-bg: #1c1c1e;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body,
+html {
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+}
+
+#app-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-color);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+#browser-header {
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding-top: 4px;
+    -webkit-app-region: drag;
+}
+
+#tabs-container {
+    display: flex;
+    align-items: center;
+    padding: 0 12px 0 80px;
+    gap: 6px;
+    height: 36px;
+    overflow-x: auto;
+    -webkit-app-region: drag;
+}
+
+/* Android: no traffic-light gutter, no draggable region */
+body.is-android #tabs-container { padding-left: 12px; }
+body.is-android #browser-header,
+body.is-android #tabs-container { -webkit-app-region: no-drag; }
+
+.tab {
+    min-width: 120px;
+    max-width: 180px;
+    height: 28px;
+    background: var(--tab-inactive);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+    cursor: pointer;
+    border: 0.5px solid transparent;
+    -webkit-app-region: no-drag;
+}
+
+.tab.active {
+    background: var(--tab-active);
+    color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--border-color);
+}
+
+.tab-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.close-tab {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    opacity: 0.4;
+}
+
+#new-tab-btn {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+
+.toolbar {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 16px;
+    -webkit-app-region: no-drag;
+}
+
+.nav-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.address-bar-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.nav-btn:disabled,
+.nav-btn.disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+#address-bar {
+    flex: 1;
+    height: 32px;
+    background: var(--address-bg);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border: 1px solid var(--border-color);
+}
+
+#url-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-color);
+    font-size: 13.5px;
+    text-align: center;
+}
+
+#url-input:focus {
+    text-align: left;
+}
+
+#tabs-container::-webkit-scrollbar {
+    height: 0;
+}
+
+#webviews-container {
+    flex: 1;
+    position: relative;
+    background: var(--webview-bg);
+}
+
+webview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+}
+
+webview.active {
+    visibility: visible;
+}
+
+#address-bar.insecure .lock-icon { display: none; }
+
+#ad-block-badge {
+    color: #34c759;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
